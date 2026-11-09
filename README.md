@@ -1,177 +1,182 @@
-<p align="center">
+ <p align="center">
   <img src="assets/ShellLogo.png" width="120"/>
 </p>
 
 <h1 align="center">ShellOS</h1>
 
 <p align="center">
-  Um sistema operacional minimo feito do zero em Assembly e C,<br>
-  com módulos em Rust e shell interativo.
+  A minimal operating system built from scratch in Assembly and C,<br>
+  with Rust modules and an interactive shell.
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/licença-MIT-green"/>
-  <img src="https://img.shields.io/badge/linguagens-Assembly%20%7C%20C%20%7C%20Rust-blue"/>
-  <img src="https://img.shields.io/badge/testado-QEMU-orange"/>
-  <img src="https://img.shields.io/badge/status-em%20desenvolvimento-yellow"/>
+  <img src="https://img.shields.io/badge/license-MIT-green"/>
+  <img src="https://img.shields.io/badge/languages-Assembly%20%7C%20C%20%7C%20Rust-blue"/>
+  <img src="https://img.shields.io/badge/tested-QEMU-orange"/>
+  <img src="https://img.shields.io/badge/status-in%20development-yellow"/>
 </p>
 
 ---
 
-## Sobre
+## About
 
-**ShellOS** é um sistema operacional básico construído do zero com fins educacionais.
-Possui bootloader próprio, kernel chamado **Basix**, shell interativo, sistema de
-arquivos em memória RAM, editor de texto integrado, interface gráfica TUI e instalador.
+**ShellOS** is a basic operating system built from scratch for educational purposes.
 
-> **Nota:** O kernel Basix é um kernel educacional minimalista inspirado no POSIX.
-> O projeto está migrando para Linux como base para amadurecer o sistema.
+It features its own bootloader, a kernel called **Basix**, an interactive shell, a RAM-based filesystem, a built-in text editor, a TUI graphical interface, and an installer.
+
+> **Note:** The Basix kernel is a minimal educational kernel inspired by POSIX.
+> The project is migrating to Linux as its foundation to further mature the system.
 
 <p align="center">
   <img src="assets/BasixLogo.png" width="80"/>
   <br>
-  <i>Basix — o kernel educacional do ShellOS</i>
+  <i>Basix — the educational kernel powering ShellOS</i>
 </p>
 
 ---
 
-## Estrutura do projeto
+## Project Structure
 
-| Arquivo | Descrição |
+| File | Description |
 |---------|-----------|
-| `bootloader.asm` | Bootloader em Assembly x86 — inicializa o sistema e carrega o kernel |
-| `entry.asm` | Entry point do kernel — ponto de entrada em 32 bits |
-| `kernel.c` | **Basix** — driver VGA, teclado PS/2, scroll, inicialização |
-| `shell.c` | Loop do shell, leitura de input e parser de comandos |
-| `commands.c` | Implementação de todos os comandos do shell |
-| `fs.c` | Sistema de arquivos em RAM — diretórios e arquivos voláteis |
-| `write.c` | Editor de texto minimalista integrado ao shell |
-| `makeux.c` | Interface gráfica TUI estilo Windows 1.0 |
-| `shinstall.c` | Instalador visual com seleção de idioma, teclado e particionamento |
-| `keymap.c` | Layouts de teclado — ABNT2, QWERTY US, QWERTZ DE, AZERTY FR |
-| `ata.c` | Driver ATA — leitura e escrita no disco |
-| `partition.c` | Particionador — escreve tabela MBR no disco |
-| `linker.ld` | Script de linkagem — define layout do kernel na memória |
-| `Makefile` | Compilação, empacotamento e execução |
-| `memman/` | Módulo de gerenciamento de memória escrito em **Rust** |
+| `bootloader.asm` | x86 Assembly bootloader — initializes the system and loads the kernel |
+| `entry.asm` | Kernel entry point — 32-bit entry point |
+| `kernel.c` | **Basix** — VGA driver, PS/2 keyboard, scrolling, initialization |
+| `shell.c` | Shell loop, input handling, and command parser |
+| `commands.c` | Implementation of all shell commands |
+| `fs.c` | RAM-based filesystem — volatile directories and files |
+| `write.c` | Minimal text editor integrated into the shell |
+| `makeux.c` | Windows 1.0-style TUI graphical interface |
+| `shinstall.c` | Visual installer with language, keyboard, and partitioning options |
+| `keymap.c` | Keyboard layouts — ABNT2, QWERTY US, QWERTZ DE, AZERTY FR |
+| `ata.c` | ATA driver — disk read and write operations |
+| `partition.c` | Partition manager — writes an MBR partition table to the disk |
+| `linker.ld` | Linker script — defines the kernel's memory layout |
+| `Makefile` | Build, packaging, and execution |
+| `memman/` | Memory management module written in **Rust** |
 
 ---
 
-## Comandos disponíveis
+## Available Commands
 
-| Comando | Descrição |
+| Command | Description |
 |---------|-----------|
-| `help` | Lista todos os comandos |
-| `clear` | Limpa a tela |
-| `echo <texto>` | Imprime texto na tela |
-| `ls` | Lista diretórios e arquivos |
-| `mkdir <nome>` | Cria um diretório |
-| `rm <dir>/<arq>` | Remove um arquivo |
-| `write <arq>` | Abre o editor de texto (F2 salvar, F10 sair) |
-| `makeux` | Abre a interface gráfica TUI |
-| `shinstall` | Instala o ShellOS no disco |
-| `mem` | Informações de memória do kernel |
-| `ver` | Versão do ShellOS |
-| `halt` | Desliga o sistema |
+| `help` | Lists all available commands |
+| `clear` | Clears the screen |
+| `echo <text>` | Prints text to the screen |
+| `ls` | Lists directories and files |
+| `mkdir <name>` | Creates a directory |
+| `rm <dir>/<file>` | Removes a file |
+| `write <file>` | Opens the text editor (F2 to save, F10 to exit) |
+| `makeux` | Opens the TUI graphical interface |
+| `shinstall` | Installs ShellOS to disk |
+| `mem` | Displays kernel memory information |
+| `ver` | Displays the ShellOS version |
+| `halt` | Shuts down the system |
 
 ---
 
-## MakeUX — Interface Gráfica
+## MakeUX — Graphical Interface
 
-| Tecla | Ação |
+| Key | Action |
 |-------|------|
-| `F1` | Voltar ao shell |
-| `F2` | Visualizar arquivos |
-| `F3` | Informações de memória |
-| `F10` | Sair do MakeUX |
-| `F12` | Desligar o sistema |
+| `F1` | Return to the shell |
+| `F2` | View files |
+| `F3` | Display memory information |
+| `F10` | Exit MakeUX |
+| `F12` | Shut down the system |
 
 ---
 
-## Layouts de teclado suportados
+## Supported Keyboard Layouts
 
-| Layout | Região |
+| Layout | Region |
 |--------|--------|
-| ABNT2 | Português (Brasil) |
+| ABNT2 | Portuguese (Brazil) |
 | QWERTY | English (US) |
-| QWERTZ | Deutsch (DE) |
-| AZERTY | Français (FR) |
+| QWERTZ | German (DE) |
+| AZERTY | French (FR) |
 
 ---
 
-## Requisitos
+## Requirements
+
 ```bash
 sudo apt install nasm gcc make qemu-system-x86 xorriso
 ```
 
 ---
 
-## Compilar e rodar
+## Building and Running
+
 ```bash
-# compilar
+# build
 make
 
-# testar no QEMU (ambiente recomendado)
+# test in QEMU (recommended environment)
 make run
 
-# gerar pacotes (.img .vdi .iso)
+# generate packages (.img .vdi .iso)
 make package
 ```
 
 ---
 
-## Compatibilidade
+## Compatibility
 
-| Ambiente | Status |
+| Environment | Status |
 |----------|--------|
-| QEMU | ✅ Testado e funcional |
-| VirtualBox | ⚠️ Funcional, passivel de bugs |
-| VMware | ⚠️ Sem garantia, possiveis falhas críticas |
-| Hardware real | ⚠️ Sem garantia, não recomendável |
+| QEMU | ✅ Tested and working |
+| VirtualBox | ⚠️ Functional, may contain bugs |
+| VMware | ⚠️ No guarantees, possible critical failures |
+| Real hardware | ⚠️ No guarantees, not recommended |
 
 ---
 
-## Tecnologias
+## Technologies
 
-- **Assembly x86** — bootloader e entry point
-- **C** — kernel Basix, shell, sistema de arquivos
-- **Rust** — módulo de gerenciamento de memória (`memman`)
+- **x86 Assembly** — bootloader and entry point
+- **C** — Basix kernel, shell, and filesystem
+- **Rust** — memory management module (`memman`)
 
 ---
 
 ## Roadmap
 
-- [x] Bootloader próprio
-- [x] Kernel Basix
-- [x] Shell interativo
-- [x] Sistema de arquivos em RAM
-- [x] Editor de texto
-- [x] Interface gráfica TUI (MakeUX)
-- [x] Instalador (ShInstall)
-- [x] Driver ATA
-- [x] Layouts de teclado
-- [ ] Migração para kernel Linux
-- [ ] Rede
-- [ ] Sistema de arquivos persistente
-- [ ] MakeUX completo
+- [x] Custom bootloader
+- [x] Basix kernel
+- [x] Interactive shell
+- [x] RAM-based filesystem
+- [x] Text editor
+- [x] TUI graphical interface (MakeUX)
+- [x] Installer (ShInstall)
+- [x] ATA driver
+- [x] Keyboard layouts
+- [ ] Migration to the Linux kernel
+- [ ] Networking
+- [ ] Persistent filesystem
+- [ ] Full MakeUX implementation
 
 ---
 
-## Licença
+## License
 
-MIT — livre para usar, modificar e distribuir.
-Qualquer pessoa pode forkear e distribuir sua própria versão gratuitamente.
+MIT — free to use, modify, and distribute.
 
----
-
-## Aviso
-
-Projeto construído com auxílio de IA como ferramenta de aprendizado,
-similar ao uso de documentação técnica e OSDev Wiki.
-Desenvolvido no **Linux Mint** com **Visual Studio Code**.
+Anyone can fork the project and distribute their own version for free.
 
 ---
 
-## Observação
+## Disclaimer
 
-O Autor do projeto é um **estudante** de programação e linux, tenha paciencia com qualquer possivel erro!
+This project was built with the assistance of AI as a learning tool, similar to the use of technical documentation and the OSDev Wiki.
+
+Developed on **Linux Mint** using **Visual Studio Code**.
+
+---
+
+## Additional Note
+
+The author of this project is a **student** of programming and Linux.
+
+Please be patient with any potential errors!
